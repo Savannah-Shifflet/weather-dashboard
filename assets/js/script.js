@@ -1,4 +1,5 @@
 var searchBtn = $('#searchBtn');
+var searchCard = $('#searchCard');
 var cityName = '';
 
 var geoURL = 'https://api.openweathermap.org/data/2.5/forecast?q=';
@@ -13,11 +14,18 @@ function cityCoord () {
             return response.json();
         })
         .then(function (data) {
-            console.log(data)
-            latitude = data.city.coord.lat.toString();
-            longitude = data.city.coord.lon.toString();
-            console.log(latitude)
-            console.log(longitude)
+            if(data.message === 0) {
+                console.log(data)
+                latitude = data.city.coord.lat.toString();
+                longitude = data.city.coord.lon.toString();
+                console.log(latitude)
+                console.log(longitude)
+            } else {
+                var error = document.createElement('p');
+                $(error).text('Please enter a valid city name');
+                $(error).attr('style', 'color: red; font-style: italic');
+                $(searchCard).append(error);
+            }
         })
 }
 
