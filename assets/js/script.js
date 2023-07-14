@@ -31,9 +31,7 @@ function cityCoord () {
                 longitude = data.city.coord.lon.toString();
                 cityName = data.city.name;
 
-                cityHistory.push(cityName);
-                localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
-
+                storeCities(cityName);
                 console.log(latitude)
                 console.log(longitude)
 
@@ -77,28 +75,59 @@ function cityForecast () {
 
                 $('#'+ i).append(dayDate, dayTemp, dayWind, dayHumidity);
             }
-            renderCities();
         })
 }
 
+function storeCities(str) {
+
+    if (cityHistory.length !== 0) {
+        for (i=0; i<cityHistory.length ; i++) {
+            if (str === cityHistory[i]){
+                console.log(str + 'if');
+                return;
+                
+            } else {
+                cityHistory.push(str);
+                localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
+                var historyBtn = document.createElement('button');
+                $(historyBtn).text(str);
+                $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch')
+                $(historyBtn).attr('data-name', str);
+                $('#sideSection').append(historyBtn);
+                }
+        }
+    } else {
+        cityHistory.push(str);
+        localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
+        var historyBtn = document.createElement('button');
+        $(historyBtn).text(str);
+        $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch')
+        $(historyBtn).attr('data-name', str);
+        $('#sideSection').append(historyBtn);
+    }
+}
 
 function renderCities(){
     for (i = 0; i < cityHistory.length; i++) {
         var historyBtn = document.createElement('button');
         $(historyBtn).text(cityHistory[i]);
-        $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100')
-        $(historyBtn).attr('data-name', cityHistory[i])
+        $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch');
+        $(historyBtn).attr('data-name', cityHistory[i]);
         $('#sideSection').append(historyBtn);
         
     }
 }
 
-// $(historyBtn).on("click", function (){
-//     console.log($(historyBtn).attr('data-name'));
-//     cityName = $(historyBtn).attr('data-name')
-//     console.log(cityName);
-//     cityCoord();
-// })
+var historySearch = document.querySelectorAll('.historySearch')
+
+    for (i of historySearch) {
+        i.on("click", function (event){
+            console.log($(event.target).attr('data-name'));
+            cityName = $(event.target).attr('data-name')
+            console.log(cityName);
+            cityCoord();
+        })
+    }
 
 function init() {
     var storedCities = JSON.parse(localStorage.getItem('cityHistory'));
@@ -114,6 +143,5 @@ init();
 
 $(searchBtn).on("click", function () {
     cityName = $('#cityName').val();
-    console.log(cityName);
     cityCoord();
 })
