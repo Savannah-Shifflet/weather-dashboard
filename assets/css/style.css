@@ -1,3 +1,22 @@
 .customHeight {
     height: fit-content;
 }
+
+.fiveDay {
+    background-color: #003554;
+    color: white;
+}
+
+.customNav {
+    background-color: #003554;
+    color: white;
+}
+
+.customCurrent {
+    background-color:#006494;
+    color: white;
+}
+
+#searchBtn{
+    background-color: #0582CA;
+}

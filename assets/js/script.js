@@ -75,7 +75,12 @@ function cityForecast () {
                 var dayHumidity = document.createElement('p');
                 $(dayHumidity).text('Humidity: ' + data.daily[i].humidity + ' %');
 
-                $('#'+ i).append(dayDate, dayTemp, dayWind, dayHumidity);
+                var dayIcon = document.createElement('img');
+                var iconSrc = ('https://openweathermap.org/img/w/' + data.daily[i].weather[0].icon + '.png');
+                $(dayIcon).attr('src', iconSrc);
+                $(dayIcon).css('max-width', '50px')
+                $(dayIcon).css('max-height', '50px')
+                $('#'+ i).append(dayDate, dayIcon, dayTemp, dayWind, dayHumidity);
             }
         })
 }
