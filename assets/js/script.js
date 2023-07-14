@@ -16,6 +16,8 @@ var forecastURLLonParameter = '&lon='
 
 var latitude = '';
 var longitude = '';
+var cityHistory = [];
+
 
 function cityCoord () {
     fetch(geoURL + cityName + apiKey) 
@@ -28,8 +30,13 @@ function cityCoord () {
                 latitude = data.city.coord.lat.toString();
                 longitude = data.city.coord.lon.toString();
                 cityName = data.city.name;
+
+                cityHistory.push(cityName);
+                localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
+
                 console.log(latitude)
                 console.log(longitude)
+
                 cityForecast();
             } else {
                 var error = document.createElement('p');
@@ -70,9 +77,40 @@ function cityForecast () {
 
                 $('#'+ i).append(dayDate, dayTemp, dayWind, dayHumidity);
             }
-
+            renderCities();
         })
 }
+
+
+function renderCities(){
+    for (i = 0; i < cityHistory.length; i++) {
+        var historyBtn = document.createElement('button');
+        $(historyBtn).text(cityHistory[i]);
+        $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100')
+        $(historyBtn).attr('data-name', cityHistory[i])
+        $('#sideSection').append(historyBtn);
+        
+    }
+}
+
+// $(historyBtn).on("click", function (){
+//     console.log($(historyBtn).attr('data-name'));
+//     cityName = $(historyBtn).attr('data-name')
+//     console.log(cityName);
+//     cityCoord();
+// })
+
+function init() {
+    var storedCities = JSON.parse(localStorage.getItem('cityHistory'));
+
+    if (storedCities !== null) {
+        cityHistory = storedCities;
+    }
+
+    renderCities();
+}
+
+init();
 
 $(searchBtn).on("click", function () {
     cityName = $('#cityName').val();
