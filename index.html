@@ -15,8 +15,8 @@
     </nav>
 
     <div class = "container">
-        <div class = "row">
-            <div class="card col-md-12 col-lg-4 mt-2" >
+        <div class = "row justify-content-evenly">
+            <div class="card col-sm-12 col-lg-4 mt-2 " >
                 <div class="card-body" id = 'searchCard'>
                     <h5 class="card-title h3">Search for a city:</h5>
                     <input type="text" class="form-control mb-3" placeholder="City" aria-label="City" aria-describedby="basic-addon1" id = 'cityName'>
@@ -24,9 +24,12 @@
                 </div>
             </div>
 
-            <div class = "container-fluid col-md-12 col-lg-8 mt-2">
+            <div class = "container col-sm-12 col-lg-7 mt-2">
                 <div class = "card row">
-                    <h2 id = 'cityTitle'></h2>
+                    <h2>
+                        <span id = 'cityTitle'></span>
+                        <img src = '' id = 'todayIcon' >
+                    </h2>
                     <p id = 'todayTemp'>Temp:</p>
                     <p id = 'todayWind'>Wind:</p>
                     <p id = 'todayHumidity'>Humidity:</p>
