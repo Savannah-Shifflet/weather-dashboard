@@ -62,29 +62,37 @@ function cityForecast () {
             var iconSrc = ('https://openweathermap.org/img/w/' + data.current.weather[0].icon + '.png');
             $(todayIcon).attr('src', iconSrc);
 
-            for (i=1; i < 6; i++ ) {
-                var dayDate = document.createElement('h4');
-                $(dayDate).text(dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY')); 
-
-                var dayTemp = document.createElement('p');
-                $(dayTemp).text('Temp: ' + data.daily[i].temp.day + ' °F');
-                
-                var dayWind = document.createElement('p');
-                $(dayWind).text('Wind: ' + data.daily[i].wind_speed + ' MPH');
-
-                var dayHumidity = document.createElement('p');
-                $(dayHumidity).text('Humidity: ' + data.daily[i].humidity + ' %');
-
-                var dayIcon = document.createElement('img');
-                var iconSrc = ('https://openweathermap.org/img/w/' + data.daily[i].weather[0].icon + '.png');
-                $(dayIcon).attr('src', iconSrc);
-                $(dayIcon).css('max-width', '50px')
-                $(dayIcon).css('max-height', '50px')
-                $('#'+ i).append(dayDate, dayIcon, dayTemp, dayWind, dayHumidity);
-            }
+            fiveDay(data);
+            
         })
 }
 
+function fiveDay(data) {
+    for (i=1; i < 6; i++ ) {
+        $('#' + i).empty();
+    }
+    
+    for (i=1; i < 6; i++ ) {
+        var dayDate = document.createElement('h4');
+        $(dayDate).text(dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY')); 
+
+        var dayTemp = document.createElement('p');
+        $(dayTemp).text('Temp: ' + data.daily[i].temp.day + ' °F');
+        
+        var dayWind = document.createElement('p');
+        $(dayWind).text('Wind: ' + data.daily[i].wind_speed + ' MPH');
+
+        var dayHumidity = document.createElement('p');
+        $(dayHumidity).text('Humidity: ' + data.daily[i].humidity + ' %');
+
+        var dayIcon = document.createElement('img');
+        var iconSrc = ('https://openweathermap.org/img/w/' + data.daily[i].weather[0].icon + '.png');
+        $(dayIcon).attr('src', iconSrc);
+        $(dayIcon).css('max-width', '50px')
+        $(dayIcon).css('max-height', '50px')
+        $('#'+ i).append(dayDate, dayIcon, dayTemp, dayWind, dayHumidity);
+    }
+}
 function storeCities(str) {    
     // check for duplicates in the array first
     for (i=0; i<cityHistory.length ; i++) {
