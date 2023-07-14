@@ -48,13 +48,29 @@ function cityForecast () {
         })
         .then(function (data) {
             console.log(data);
-            // TODO add weather symbol to title
             $(cityTitle).text(cityName + ' - ' + todaysDate);
-            $(todayTemp).text('Temp: ' + data.current.temp.toString() + ' °F');
-            $(todayWind).text('Wind: ' + data.current.wind_speed.toString() + ' MPH');
-            $(todayHumidity).text('Humidity: ' + data.current.humidity.toString() + ' %');
+            $(todayTemp).text('Temp: ' + data.current.temp + ' °F');
+            $(todayWind).text('Wind: ' + data.current.wind_speed + ' MPH');
+            $(todayHumidity).text('Humidity: ' + data.current.humidity + ' %');
             var iconSrc = ('https://openweathermap.org/img/w/' + data.current.weather[0].icon + '.png');
             $(todayIcon).attr('src', iconSrc);
+
+            for (i=1; i < 6; i++ ) {
+                var dayDate = document.createElement('h4');
+                $(dayDate).text(dayjs.unix(data.daily[i].dt).format('MMMM D, YYYY')); 
+
+                var dayTemp = document.createElement('p');
+                $(dayTemp).text('Temp: ' + data.daily[i].temp.day + ' °F');
+                
+                var dayWind = document.createElement('p');
+                $(dayWind).text('Wind: ' + data.daily[i].wind_speed + ' MPH');
+
+                var dayHumidity = document.createElement('p');
+                $(dayHumidity).text('Humidity: ' + data.daily[i].humidity + ' %');
+
+                $('#'+ i).append(dayDate, dayTemp, dayWind, dayHumidity);
+            }
+
         })
 }
 

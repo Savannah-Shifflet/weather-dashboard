@@ -16,7 +16,9 @@
 
     <div class = "container">
         <div class = "row justify-content-evenly">
-            <div class="card col-sm-12 col-lg-4 mt-2 " >
+            
+            <!-- search column with search box and history appended below -->
+            <div class="card col-sm-12 col-lg-3 mt-2 customHeight" >
                 <div class="card-body" id = 'searchCard'>
                     <h5 class="card-title h3">Search for a city:</h5>
                     <input type="text" class="form-control mb-3" placeholder="City" aria-label="City" aria-describedby="basic-addon1" id = 'cityName'>
@@ -24,7 +26,9 @@
                 </div>
             </div>
 
-            <div class = "container col-sm-12 col-lg-7 mt-2">
+            <!-- Container with weather data -->
+            <div class = "container col-sm-12 col-lg-8 mt-2">
+                <!-- row for current weather that is larger in size -->
                 <div class = "card row">
                     <h2>
                         <span id = 'cityTitle'></span>
@@ -34,21 +38,21 @@
                     <p id = 'todayWind'>Wind:</p>
                     <p id = 'todayHumidity'>Humidity:</p>
                 </div>
-                <div class = "row">
-                    <div class = "card col-md-6 col-lg-3">
-
+                <!-- row for 5-day forecast made up of smaller cards -->
+                <div class = "row justify-content-between mt-2">
+                    <div class = "card col-md-5 col-lg-2" id = '1'>
                     </div>
-                    <div class = "card col-md-6 col-lg-3">
 
+                    <div class = "card col-md-5 col-lg-2" id = '2'>
                     </div>
-                    <div class = "card col-md-6 col-lg-3">
 
+                    <div class = "card col-md-5 col-lg-2" id = '3'>
                     </div>
-                    <div class = "card col-md-6 col-lg-3">
 
+                    <div class = "card col-md-5 col-lg-2" id = '4'>
                     </div>
-                    <div class = "card col-md-6 col-lg-3">
 
+                    <div class = "card col-md-5 col-lg-2" id = '5'>
                     </div>
                 </div>
             </div>
