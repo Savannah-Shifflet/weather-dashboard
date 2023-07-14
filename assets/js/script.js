@@ -6,6 +6,8 @@ var todayWind = $('#todayWind');
 var todayHumidity = $('#todayHumidity');
 var todayIcon = $('#todayIcon');
 
+var error = document.createElement('p');
+
 var cityName = '';
 var todaysDate = dayjs().format('MMMM D, YYYY');
 
@@ -26,6 +28,7 @@ function cityCoord () {
         })
         .then(function (data) {
             if(data.message === 0) {
+                error.textContent = '';
                 console.log(data)
                 latitude = data.city.coord.lat.toString();
                 longitude = data.city.coord.lon.toString();
@@ -37,7 +40,6 @@ function cityCoord () {
 
                 cityForecast();
             } else {
-                var error = document.createElement('p');
                 $(error).text('Please enter a valid city name');
                 $(error).attr('style', 'color: red; font-style: italic');
                 $(searchCard).append(error);
