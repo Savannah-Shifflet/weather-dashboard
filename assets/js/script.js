@@ -78,34 +78,26 @@ function cityForecast () {
         })
 }
 
-function storeCities(str) {
-
-    if (cityHistory.length !== 0) {
-        for (i=0; i<cityHistory.length ; i++) {
+function storeCities(str) {    
+    // check for duplicates in the array first
+    for (i=0; i<cityHistory.length ; i++) {
+            console.log(cityHistory.length)
             if (str === cityHistory[i]){
                 console.log(str + 'if');
-                return;
-                
-            } else {
-                cityHistory.push(str);
-                localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
-                var historyBtn = document.createElement('button');
-                $(historyBtn).text(str);
-                $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch')
-                $(historyBtn).attr('data-name', str);
-                $('#sideSection').append(historyBtn);
-                }
-        }
-    } else {
-        cityHistory.push(str);
-        localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
-        var historyBtn = document.createElement('button');
-        $(historyBtn).text(str);
-        $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch')
-        $(historyBtn).attr('data-name', str);
-        $('#sideSection').append(historyBtn);
+                return;  
+        } 
     }
+
+    // if not a duplicate, push the city to the array of stored cities
+    cityHistory.push(str);
+    localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
+    var historyBtn = document.createElement('button');
+    $(historyBtn).text(str);
+    $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch')
+    $(historyBtn).attr('data-name', str);
+    $('#sideSection').append(historyBtn);
 }
+
 
 function renderCities(){
     for (i = 0; i < cityHistory.length; i++) {
@@ -114,20 +106,16 @@ function renderCities(){
         $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch');
         $(historyBtn).attr('data-name', cityHistory[i]);
         $('#sideSection').append(historyBtn);
-        
-    }
-}
-
-var historySearch = document.querySelectorAll('.historySearch')
-
-    for (i of historySearch) {
-        i.on("click", function (event){
+        $(historyBtn).on("click", function (event){
             console.log($(event.target).attr('data-name'));
             cityName = $(event.target).attr('data-name')
             console.log(cityName);
             cityCoord();
         })
+        
     }
+}
+
 
 function init() {
     var storedCities = JSON.parse(localStorage.getItem('cityHistory'));
@@ -144,4 +132,4 @@ init();
 $(searchBtn).on("click", function () {
     cityName = $('#cityName').val();
     cityCoord();
-})
+});
