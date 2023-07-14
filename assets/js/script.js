@@ -96,6 +96,14 @@ function storeCities(str) {
     $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch')
     $(historyBtn).attr('data-name', str);
     $('#sideSection').append(historyBtn);
+    
+    // ensures you can click on a previously used city name without re-loading the page
+    $(historyBtn).on("click", function (event){
+        console.log($(event.target).attr('data-name'));
+        cityName = $(event.target).attr('data-name')
+        console.log(cityName);
+        cityCoord();
+    })
 }
 
 
