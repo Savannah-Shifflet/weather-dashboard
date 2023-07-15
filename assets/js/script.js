@@ -27,19 +27,20 @@ function cityCoord () {
             return response.json();
         })
         .then(function (data) {
+            // ensures API recognizes the city typed in to set lat and lon
             if(data.message === 0) {
                 error.textContent = '';
-                console.log(data)
                 latitude = data.city.coord.lat.toString();
                 longitude = data.city.coord.lon.toString();
                 cityName = data.city.name;
 
+                // calls function to store the city in local storage
                 storeCities(cityName);
-                console.log(latitude)
-                console.log(longitude)
 
+                // calls function to use lat and lon to get weather data
                 cityForecast();
             } else {
+                // returns error message if city name is not recognized by geo API
                 $(error).text('Please enter a valid city name');
                 $(error).attr('style', 'color: red; font-style: italic');
                 $(searchCard).append(error);
@@ -48,13 +49,13 @@ function cityCoord () {
         })
 }
 
+// use lat and lon to return current weather and 5-day forecast
 function cityForecast () {
     fetch(forecastURL + latitude + forecastURLLonParameter + longitude + apiKey) 
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
             $(cityTitle).text(cityName + ' - ' + todaysDate);
             $(todayTemp).text('Temp: ' + data.current.temp + ' °F');
             $(todayWind).text('Wind: ' + data.current.wind_speed + ' MPH');
@@ -62,12 +63,15 @@ function cityForecast () {
             var iconSrc = ('https://openweathermap.org/img/w/' + data.current.weather[0].icon + '.png');
             $(todayIcon).attr('src', iconSrc);
 
+            // calls function to update 5-day forecast data
             fiveDay(data);
             
         })
 }
 
+// get 5-day forecast data for city
 function fiveDay(data) {
+    // ensures that previous 5-day forecast data is cleared with a new search
     for (i=1; i < 6; i++ ) {
         $('#' + i).empty();
     }
@@ -93,12 +97,12 @@ function fiveDay(data) {
         $('#'+ i).append(dayDate, dayIcon, dayTemp, dayWind, dayHumidity);
     }
 }
+
+// store cities that user searched for in local storage
 function storeCities(str) {    
     // check for duplicates in the array first
     for (i=0; i<cityHistory.length ; i++) {
-            console.log(cityHistory.length)
             if (str === cityHistory[i]){
-                console.log(str + 'if');
                 return;  
         } 
     }
@@ -106,6 +110,8 @@ function storeCities(str) {
     // if not a duplicate, push the city to the array of stored cities
     cityHistory.push(str);
     localStorage.setItem("cityHistory", JSON.stringify(cityHistory))
+    
+    // create button on page with stored city
     var historyBtn = document.createElement('button');
     $(historyBtn).text(str);
     $(historyBtn).attr('class', 'btn btn-secondary mt-2 w-100 historySearch')
@@ -114,14 +120,12 @@ function storeCities(str) {
     
     // ensures you can click on a previously used city name without re-loading the page
     $(historyBtn).on("click", function (event){
-        console.log($(event.target).attr('data-name'));
         cityName = $(event.target).attr('data-name')
-        console.log(cityName);
         cityCoord();
     })
 }
 
-
+// creates buttons for stored cities on the page
 function renderCities(){
     for (i = 0; i < cityHistory.length; i++) {
         var historyBtn = document.createElement('button');
@@ -130,16 +134,13 @@ function renderCities(){
         $(historyBtn).attr('data-name', cityHistory[i]);
         $('#sideSection').append(historyBtn);
         $(historyBtn).on("click", function (event){
-            console.log($(event.target).attr('data-name'));
             cityName = $(event.target).attr('data-name')
-            console.log(cityName);
             cityCoord();
         })
-        
     }
 }
 
-
+// renders city history on page when loaded
 function init() {
     var storedCities = JSON.parse(localStorage.getItem('cityHistory'));
 
@@ -152,6 +153,7 @@ function init() {
 
 init();
 
+// event listener for search button 
 $(searchBtn).on("click", function () {
     cityName = $('#cityName').val();
     cityCoord();
